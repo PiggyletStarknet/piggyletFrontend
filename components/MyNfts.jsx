@@ -300,8 +300,8 @@ const NFTPage = () => {
                                       {!isLoading && !isSuccess && 'Approve'}
                                     </button>
                                     <button onClick={() => writeForStake({ args: [ nft.contract.address, nft.tokenId]})} className="block ml-auto bg-[#0e76fd] font-bold hover:scale-[1.03] duration-200  backdrop-blur-[8px] text-white  px-3 py-2 max-md:scale-95 text-md min-w-[180px] rounded-[10px]">
-                                      {successForData && 'Sended'}
-                                      {!successForData && 'Send the Nft'}
+                                      {successForData && 'Locked'}
+                                      {!successForData && 'Lock the Nft'}
                                     </button>
                                   </div>
                                 </div>
