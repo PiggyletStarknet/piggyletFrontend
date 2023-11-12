@@ -8,7 +8,7 @@ import { Contract } from 'starknet';
 import { Address } from 'viem';
 
 import contractAbi from '../abis/abi.json'
-const contractAddress = "0x002e3c885d6ccd749ab191b9df59329df95e5525e0e04879287d5a0e6cb339eb"
+const contractAddress = "0x05f761ae8fb3207e8f676ebf4b12e1b15459439e704a88bca6aa64f81a2cf36c"
 
 
 const NFTPage = () => {
@@ -27,13 +27,16 @@ const NFTPage = () => {
 
 
 
-  const { address: addressSTRK } = useAccountSTRK();
+  const { account: addressSTRK } = useAccountSTRK();
+  const { address: walletSTRK } = useAccountSTRK();
+
   const { address } = useAccount();
-  const [loanAmount, setLoanAmount] = useState('');
+  const priceATM = 1;
+  const [loanAmount, setLoanAmount] = useState(0);
   const [selectedToken, setSelectedToken] = useState('');
-  const [apr, setApr] = useState('');
-  const [paybackDuration, setPaybackDuration] = useState('');
-  const [nftTknId , setNftTknId] = useState('')
+  const [apr, setApr] = useState(0);
+  const [paybackDuration, setPaybackDuration] = useState(0);
+  const [nftTknId , setNftTknId] = useState(0)
   const [nftCntrct , setNftCntrct] = useState('')
   const [firstHalf, setFirstHalf] = useState('');
   const [secondHalf, setSecondHalf] = useState('');
@@ -141,14 +144,23 @@ const NFTPage = () => {
   const set_offer = async() => {
     try{
       const contract = new Contract(contractAbi, contractAddress, addressSTRK)
-      await contract.invoke("set_offer")
+      await contract.invoke("set_offer",[ nftTknId, paybackDuration, apr, loanAmount, '0x0107977f22b20cB73F208c8DA6e80b963F40685e85C8C51137Ec6aE4758cD40C' , walletSTRK, liquidationThreshold, firstHalf, secondHalf])
       alert("Lended Nft")
     }
     catch(error) {
       console.log(error.message)
     }
 }
-
+  const check_liquidate = async() => {
+    try{
+      const contract = new Contract(contractAbi, contractAddress, addressSTRK)
+      await contract.invoke("check_liquidate",[ priceATM ])
+      alert("Lended Nft")
+    }
+    catch(error) {
+      console.log(error.message)
+    }
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -174,6 +186,9 @@ const NFTPage = () => {
   return (
     <div>
       <div className=' pb-5'>
+      <button onClick={check_liquidate} className="absolute bottom-10 right-10 ml-auto bg-[#0e76fd] font-bold hover:scale-[1.03] duration-200  backdrop-blur-[8px] text-white  px-3 py-2 max-md:scale-95 text-md min-w-[180px] rounded-[10px]">
+          GetPriceATM
+      </button>
   <div className="sm:hidden">
     <label htmlFor="Tab" className="sr-only">Tab</label>
 
@@ -181,20 +196,21 @@ const NFTPage = () => {
       <option>Your Nfts</option>
       <option>Your Loans</option>
     </select>
+
   </div>
 
   <div className="hidden sm:block">
     <div className="border-b border-white">
       <nav className="-mb-px flex gap-6">
         <a
-          href="#"
+          href="/yourLoans"
           className="shrink-0 border border-transparent p-3 text-sm font-medium text-white hover:text-blue-500"
         >
           Yours Loans
         </a>
 
         <a
-          href="#"
+          href="/profile"
           className="shrink-0 rounded-t-lg border bg-white bg-opacity-10 border-gray-300 border-b-white p-3 text-sm font-medium text-blue-500"
         >
           Your Nfts
@@ -353,7 +369,6 @@ const NFTPage = () => {
                                       className="mt-1 w-full rounded-md p-1 border-gray-200 shadow-sm text-black sm:text-sm"
                                     />
                                   </div>
-                                  <p>Entered Amount: {liquidationThreshold} {selectedToken} </p>
                                   <button onClick={set_offer} className="block ml-auto bg-[#0e76fd] font-bold hover:scale-[1.03] duration-200  backdrop-blur-[8px] text-white  px-3 py-2 max-md:scale-95 text-md min-w-[180px] rounded-[10px]">
                                       Create Loan
                                   </button>

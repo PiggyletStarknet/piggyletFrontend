@@ -25,7 +25,44 @@
         {
           "name": "set_offer",
           "type": "function",
-          "inputs": [],
+          "inputs": [
+            {
+              "name": "nftTokenId",
+              "type": "core::integer::u256"
+            },
+            {
+              "name": "time",
+              "type": "core::integer::u256"
+            },
+            {
+              "name": "apr",
+              "type": "core::integer::u256"
+            },
+            {
+              "name": "amount",
+              "type": "core::integer::u256"
+            },
+            {
+              "name": "paymentToken",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "borrower",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "liqPrice",
+              "type": "core::integer::u256"
+            },
+            {
+              "name": "ethNftAddressFirstHalf",
+              "type": "core::felt252"
+            },
+            {
+              "name": "ethNftAddressSecondHalf",
+              "type": "core::felt252"
+            }
+          ],
           "outputs": [],
           "state_mutability": "external"
         },
@@ -53,7 +90,7 @@
           "inputs": [],
           "outputs": [
             {
-              "type": "(core::felt252, core::felt252, core::felt252)"
+              "type": "(core::starknet::contract_address::ContractAddress, core::starknet::contract_address::ContractAddress, core::starknet::contract_address::ContractAddress)"
             }
           ],
           "state_mutability": "view"
@@ -79,7 +116,12 @@
         {
           "name": "check_liquidate",
           "type": "function",
-          "inputs": [],
+          "inputs": [
+            {
+              "name": "priceAtm",
+              "type": "core::integer::u256"
+            }
+          ],
           "outputs": [],
           "state_mutability": "external"
         },
