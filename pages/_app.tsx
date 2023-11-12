@@ -4,32 +4,30 @@ import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import type { AppProps } from 'next/app';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import {
-  arbitrum,
   goerli,
-  mainnet,
-  optimism,
-  polygon,
-  base,
-  zora,
 } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
+import {
+  StarknetConfig,
+  InjectedConnector,
+  publicProvider as publicProviderSTRK
+} from "@starknet-react/core";
+import { goerli as goerliSTRK, mainnet as mainnetSTRK } from "@starknet-react/chains"
+
+// const providersSTRK = [publicProviderSTRK()]
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
-    mainnet,
-    polygon,
-    optimism,
-    arbitrum,
-    base,
-    zora,
+    goerli,
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli] : []),
   ],
   [publicProvider()]
 );
+const chainsStarknet = [goerliSTRK, mainnetSTRK]
 
 const { connectors } = getDefaultWallets({
-  appName: 'RainbowKit App',
-  projectId: 'YOUR_PROJECT_ID',
+  appName: 'Piggylet',
+  projectId: 'b88aca1ec36164be80539e3221e02bbc',
   chains,
 });
 
@@ -41,12 +39,20 @@ const wagmiConfig = createConfig({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const connectorsSTRK = [
+    new InjectedConnector({ options: { id: "argentX", name: "Argent",}}),
+    new InjectedConnector({ options: { id: "braavos", name: "Braavos",}}),
+  ];
+
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains}>
-        <Component {...pageProps} />
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <StarknetConfig chains={chainsStarknet} provider={publicProviderSTRK as any} connectors={connectorsSTRK} autoConnect={true}>
+      <WagmiConfig config={wagmiConfig}>
+        <RainbowKitProvider chains={chains}>
+            <Component {...pageProps} />
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </StarknetConfig>
+
   );
 }
 
