@@ -8,6 +8,7 @@ import { Contract } from 'starknet';
 import { Address } from 'viem';
 
 import contractAbi from '../abis/abi.json'
+import Link from 'next/link';
 const contractAddress = "0x05f761ae8fb3207e8f676ebf4b12e1b15459439e704a88bca6aa64f81a2cf36c"
 
 
@@ -44,19 +45,19 @@ const  MyLoans = () => {
   <div className="hidden sm:block">
     <div className="border-b border-white">
       <nav className="-mb-px flex gap-6">
-        <a
+        <Link
           href="/yourLoans"
           className="shrink-0 rounded-t-lg border bg-white bg-opacity-10 border-gray-300 border-b-white p-3 text-sm font-medium text-blue-500"
         >
           Yours Loans
-        </a>
+        </Link>
 
-        <a
+        <Link
           href="/profile"
           className="shrink-0 border border-transparent p-3 text-sm font-medium text-white hover:text-blue-500"
         >
           Your Nfts
-        </a>
+        </Link>
 
       </nav>
     </div>

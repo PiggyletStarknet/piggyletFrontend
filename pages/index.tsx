@@ -36,7 +36,7 @@ const Home: NextPage = () => {
             <Header/>
         <div>
           <div className=' text-xl font-bold text-white text-center py-5'>
-            Listed NFT's
+            Listed NFT&apos;s
           </div>
           <div className=' grid-rows-2 grid-cols-2 grid gap-7'>
             <div className="col-span-1 group relative p-2 pb-5 flex items-center border-2 border-transparent rounded-xl bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm hover:shadow-xl hover:border-blue-500">
